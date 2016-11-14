@@ -1,3 +1,10 @@
+#include <Servo.h>
+
+Servo leftServo; 
+Servo rightServo; 
+
+const int SPEED = 20;
+
 void setup() {
   // put your setup code here, to run once:
 
@@ -46,14 +53,33 @@ boolean wallAhead() {
 }
 
 void turnLeft() {
-  
+  // servoLeft = -20
+  // servoRight = 20
+  setLeftServoSpeed(SPEED * -1);
+  setRightServoSpeed(SPEED);
 }
 
 void turnRight() {
-  
+  // servoLeft = 20
+  // servoRight = -20
+  setLeftServoSpeed(SPEED);
+  setRightServoSpeed(SPEED * -1);
 }
 
 void moveForward() {
-  
+  setLeftServoSpeed(SPEED);
+  setRightServoSpeed(SPEED);
 }
 
+void stopRobot() {
+  setLeftServoSpeed(0);
+  setRightServoSpeed(0);
+}
+
+void setLeftServoSpeed(int speed) {
+  servoLeft.write(speed);
+}
+
+void setRightServoSpeed(int speed) {
+  servoRight.write(speed);
+}
