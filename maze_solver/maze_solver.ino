@@ -71,15 +71,19 @@ void moveForward() {
   setRightServoSpeed(SPEED);
 }
 
+void turnAround() {
+  
+}
+
 void stopRobot() {
   setLeftServoSpeed(0);
   setRightServoSpeed(0);
 }
 
 void setLeftServoSpeed(int speed) {
-  servoLeft.write(speed);
+  leftServo.write(speed);
 }
 
 void setRightServoSpeed(int speed) {
-  servoRight.write(speed);
+  rightServo.write(speed);
 }
