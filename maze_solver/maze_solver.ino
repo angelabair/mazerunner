@@ -4,10 +4,10 @@
 //#include <Servo.h>                  // Include Servo library -  We're not using servos
 #include <NewPing.h>                  // Include NewPing ultrasonic sensor library
 
-#define SONAR_NUM 3;                  // Number of sensors
-#define MAX_DISTANCE 30;              // Max distance in cm
-#define PING_INTERVAL 33;             // Milliseconds between pings
-#define DELAY_TIME 10;
+#define SONAR_NUM 3                  // Number of sensors
+#define MAX_DISTANCE 30              // Max distance in cm
+#define PING_INTERVAL 33             // Milliseconds between pings
+#define DELAY_TIME 10
 
 // Variable initialization
 unsigned long pingTimer[SONAR_NUM];   // When each pings
@@ -21,16 +21,16 @@ uint8_t currentSensor = 0;            // Which sensor is active.
 //Servo rightServo;                   // Declare right servo
 
 //Left motor initialization 
-const int pwmLeft = 2 ;               // initializing pin 2 as pwm
-const int in_1 = 8 ;                  // Inrializing logic pins
-const int in_2 = 9 ;
+const int pwmLeft =  ;               // initializing pin 2 as pwm
+const int in_1 =  ;                  // Inrializing logic pins
+const int in_2 =  ;
 
 //Right motor intialization
-const int pwmRight = ;                // initializing pin delay(DELAY_TIME as pwm
+const int pwmRight = ;                // initializing pin 3 as pwm
 const int in_3 = ;                    // Inrializing logic pins
 const int in_4 = ;
 
-NewPing sonar[SONAR_NUM] = {          // Object array for sensors
+NewPing sonar {          // Object array for sensors
 //   NewPing(trigger_pin, echo_pin, max_distance)
 //   trig pins (13, 7
 //   echo pins (
@@ -38,7 +38,7 @@ NewPing sonar[SONAR_NUM] = {          // Object array for sensors
   NewPing(11, 12, MAX_DISTANCE),
   NewPing(13, 14, MAX_DISTANCE),
   NewPing(15, 16, MAX_DISTANCE)
-}
+};
 
 void setup() {                        // Built in initialization block
   // put your setup code here, to run once:
@@ -49,17 +49,19 @@ void setup() {                        // Built in initialization block
 //  leftServo.write(90);              // Sets servo to mid-point
 //  rightServo.write(90);
   pinMode(pwmLeft, OUTPUT);           //we have to set PWM pin as output
-  pinMode(in_1, OUTPUT);  /           //Logic pins are also set as output 
+  pinMode(in_1, OUTPUT);              //Logic pins are also set as output 
   pinMode(in_2, OUTPUT);
  
   pingTimer[0] = millis() + 75;       // First ping start in ms.
-  for (uint8_t i = 1; i < SONAR_NUM; i++)
+  uint8_t i;
+  for (i = 1; i < SONAR_NUM; i++)
     pingTimer[i] = pingTimer[i - 1] + PING_INTERVAL;
 
 }
 
 void loop() {                         // Main loop
-  for (uint8_t i = 0; i < SONAR_NUM; i++) {
+  uint8_t i;
+  for (i = 0; i < SONAR_NUM; i++) {
     if (millis() >= pingTimer[i]) {
       pingTimer[i] += PING_INTERVAL * SONAR_NUM;
       if (i == 0 && currentSensor == SONAR_NUM - 1)
@@ -70,6 +72,7 @@ void loop() {                         // Main loop
       sonar[currentSensor].ping_timer(echoCheck);
     }
   }
+}
   
 //   delay(50);
 //   angelasWay();
