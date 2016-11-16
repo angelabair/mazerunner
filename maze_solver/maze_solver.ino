@@ -7,6 +7,7 @@
 #define SONAR_NUM 3;                  // Number of sensors
 #define MAX_DISTANCE 30;              // Max distance in cm
 #define PING_INTERVAL 33;             // Milliseconds between pings
+#define DELAY_TIME 10;
 
 // Variable initialization
 unsigned long pingTimer[SONAR_NUM];   // When each pings
@@ -25,7 +26,7 @@ const int in_1 = 8 ;                  // Inrializing logic pins
 const int in_2 = 9 ;
 
 //Right motor intialization
-const int pwmRight = ;                // initializing pin # as pwm
+const int pwmRight = ;                // initializing pin delay(DELAY_TIME as pwm
 const int in_3 = ;                    // Inrializing logic pins
 const int in_4 = ;
 
@@ -144,15 +145,8 @@ void turnLeft() {                     // Makes robot turn left
 //  setRightServoSpeed(SPEED);
 //  setLeftServoSpeed(45);            // I don't know if any of these speeds actually work
 //  setRightServoSpeed(135);          // Let's hope I didn't fuck up
-  digitalWrite(in_1, HIGH);           // This should go backwards
-  digitalWrite(in_2, LOW);
-  analogWrite(pwmLeft, 255);          // This is full speed so it might be full circle
-  delay(#);
-
-  digitalWrite(in_1, HIGH);           // This should go forwards
-  digitalWrite(in_2, LOW);
-  analogWrite(pwmRight, 255);
-  delay(#);
+  leftWheelBackwards();
+  rightWheelForward();
 }
 
 void turnRight() {                    // Makes robot turn right
@@ -163,15 +157,8 @@ void turnRight() {                    // Makes robot turn right
 //  setLeftServoSpeed(135);
 //  setRightServoSpeed(45);
 
-  digitalWrite(in_1, LOW);            // This should go backwards
-  digitalWrite(in_2, HIGH);
-  analogWrite(pwmLeft, 255);          
-  delay(#);                           // Change the delays for the rotation times
-
-  digitalWrite(in_3, LOW);            // This should go forwards
-  digitalWrite(in_4, HIGH);
-  analogWrite(pwmRight, 255);
-  delay(#);
+  leftWheelForward();
+  rightWheelBackwards();
 }
 
 void moveForward() {                  // Makes robot go forward
@@ -180,15 +167,8 @@ void moveForward() {                  // Makes robot go forward
 //  setLeftServoSpeed(0);
 //  setRightServoSpeed(0);
 
-  digitalWrite(in_1, LOW);            
-  digitalWrite(in_2, HIGH);
-  analogWrite(pwmLeft, 255);
-  delay(#);          
-
-  digitalWrite(in_3, HIGH);           
-  digitalWrite(in_4, LOW);
-  analogWrite(pwmRight, 255);
-  delay(#);
+  leftWheelForward();      
+  rightWheelForward();
 }
 
 void turnAround() {                   // Makes robot turnaround
@@ -197,12 +177,12 @@ void turnAround() {                   // Makes robot turnaround
   digitalWrite(in_1, HIGH);           
   digitalWrite(in_2, LOW);
   analogWrite(pwmLeft, 255);          
-  delay(#);
+  delay(DELAY_TIME);
   
   digitalWrite(in_3, HIGH);           
   digitalWrite(in_4, LOW);
   analogWrite(pwmRight, 255);
-  delay(#);
+  delay(DELAY_TIME);
 }
 
 void stopRobot() {                     // Makes robot stop
@@ -213,9 +193,36 @@ void stopRobot() {                     // Makes robot stop
   digitalWrite(in_2, HIGH);
   digitalWrite(in_3, HIGH);
   digitalWrite(in_4, HIGH);
-  delay(#);
+  delay(DELAY_TIME);
 }
 
+void leftWheelForward() {
+  digitalWrite(in_1, LOW);            // This should go backwards
+  digitalWrite(in_2, HIGH);
+  analogWrite(pwmLeft, 255);          
+  delay(DELAY_TIME);
+}
+
+void leftWheelBackwards() {
+  digitalWrite(in_1, HIGH);           // This should go backwards
+  digitalWrite(in_2, LOW);
+  analogWrite(pwmLeft, 255);          // This is full speed so it might be full circle
+  delay(DELAY_TIME);
+}
+
+void rightWheelForward() {
+  digitalWrite(in_3, HIGH);           
+  digitalWrite(in_4, LOW);
+  analogWrite(pwmRight, 255);
+  delay(DELAY_TIME);
+}
+
+void rightWheelBackwards() {
+  digitalWrite(in_3, LOW);            // This should go forwards
+  digitalWrite(in_4, HIGH);
+  analogWrite(pwmRight, 255);
+  delay(DELAY_TIME);
+}
 //void setLeftServoSpeed(int speed) {   // Sets speed of left servo
 ////  leftServo.write(speed);
 //}
