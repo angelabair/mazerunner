@@ -20,20 +20,20 @@ uint8_t currentSensor = 0;            // Which sensor is active.
 //Servo leftServo;                    // Declare left servo
 //Servo rightServo;                   // Declare right servo
 
-//Left motor initialization 
-const int pwmLeft =  ;               // initializing pin 2 as pwm
-const int in_1 =  ;                  // Inrializing logic pins
-const int in_2 =  ;
+//Left motor initialization
+const int pwmLeft = 1;               // initializing pin 2 as pwm
+const int in_1 = 2;                  // Inrializing logic pins
+const int in_2 = 3;
 
 //Right motor intialization
-const int pwmRight = ;                // initializing pin 3 as pwm
-const int in_3 = ;                    // Inrializing logic pins
-const int in_4 = ;
+const int pwmRight = 1;                // initializing pin 3 as pwm
+const int in_3 = 2;                    // Inrializing logic pins
+const int in_4 = 3;
 
-NewPing sonar {          // Object array for sensors
-//   NewPing(trigger_pin, echo_pin, max_distance)
-//   trig pins (13, 7
-//   echo pins (
+NewPing sonar[SONAR_NUM] {          // Object array for sensors
+  //   NewPing(trigger_pin, echo_pin, max_distance)
+  //   trig pins (13, 7
+  //   echo pins (
 
   NewPing(11, 12, MAX_DISTANCE),
   NewPing(13, 14, MAX_DISTANCE),
@@ -44,14 +44,14 @@ void setup() {                        // Built in initialization block
   // put your setup code here, to run once:
   Serial.begin(9600);
   Serial.println("Starting...");
-//  leftServo.attach(10);
-//  rightServo.attach(11);
-//  leftServo.write(90);              // Sets servo to mid-point
-//  rightServo.write(90);
+  //  leftServo.attach(10);
+  //  rightServo.attach(11);
+  //  leftServo.write(90);              // Sets servo to mid-point
+  //  rightServo.write(90);
   pinMode(pwmLeft, OUTPUT);           //we have to set PWM pin as output
-  pinMode(in_1, OUTPUT);              //Logic pins are also set as output 
+  pinMode(in_1, OUTPUT);              //Logic pins are also set as output
   pinMode(in_2, OUTPUT);
- 
+
   pingTimer[0] = millis() + 75;       // First ping start in ms.
   uint8_t i;
   for (i = 1; i < SONAR_NUM; i++)
@@ -73,7 +73,7 @@ void loop() {                         // Main loop
     }
   }
 }
-  
+
 //   delay(50);
 //   angelasWay();
 //   dansWay();}
@@ -84,7 +84,7 @@ void echoCheck() {                    // Checks ping echo and sets distance to a
 }
 
 void oneSensorCycle() {               // Moves depending on sensor results
-  
+
   angelasWay();
   //dansWay();
   for (uint8_t i = 0; i < SONAR_NUM; i++) {
@@ -97,32 +97,39 @@ void oneSensorCycle() {               // Moves depending on sensor results
 }
 
 void angelasWay() {                   // Includes block for deadend
-  if (!wallOnLeft())
+  if (!wallOnLeft()) {
     turnLeft();
-  delay(50);
-  else if (wallAhead()) {
-    if (wallOnRight())
-      turnAround();
-    delay(50);
-    else
-      turnRight();
     delay(50);
   }
-  else
+  else if (wallAhead()) {
+    if (wallOnRight()) {
+      turnAround();
+      delay(50);
+    }
+    else {
+      turnRight();
+      delay(50);
+    }
+  }
+  else {
     moveForward();
-  delay(50);
+    delay(50);
+  }
 }
 
 void dansWay() {                      // Only uses interval event turns
-  if (!wallOnLeft())
+  if (!wallOnLeft()) {
     turnLeft();
-  delay(50);
-  else if (wallAhead())
+    delay(50);
+  }
+  else if (wallAhead()) {
     turnRight();
-  delay(50);
-  else
+    delay(50);
+  }
+  else {
     moveForward();
-  delay(50);
+    delay(50);
+  }
 }
 
 boolean deadEnd() {                   // Returns if there is a deadend
@@ -142,55 +149,55 @@ boolean wallAhead() {                 // Returns if there is a wall ahead
 }
 
 void turnLeft() {                     // Makes robot turn left
-//  servoLeft = -20
-//  servoRight = 20
-//  setLeftServoSpeed(SPEED * -1);
-//  setRightServoSpeed(SPEED);
-//  setLeftServoSpeed(45);            // I don't know if any of these speeds actually work
-//  setRightServoSpeed(135);          // Let's hope I didn't fuck up
+  //  servoLeft = -20
+  //  servoRight = 20
+  //  setLeftServoSpeed(SPEED * -1);
+  //  setRightServoSpeed(SPEED);
+  //  setLeftServoSpeed(45);            // I don't know if any of these speeds actually work
+  //  setRightServoSpeed(135);          // Let's hope I didn't fuck up
   leftWheelBackwards();
   rightWheelForward();
 }
 
 void turnRight() {                    // Makes robot turn right
-//   servoLeft = 20
-//   servoRight = -20
-//  setLeftServoSpeed(SPEED);
-//  setRightServoSpeed(SPEED * -1);
-//  setLeftServoSpeed(135);
-//  setRightServoSpeed(45);
+  //   servoLeft = 20
+  //   servoRight = -20
+  //  setLeftServoSpeed(SPEED);
+  //  setRightServoSpeed(SPEED * -1);
+  //  setLeftServoSpeed(135);
+  //  setRightServoSpeed(45);
 
   leftWheelForward();
   rightWheelBackwards();
 }
 
 void moveForward() {                  // Makes robot go forward
-//  setLeftServoSpeed(SPEED);
-//  setRightServoSpeed(SPEED);
-//  setLeftServoSpeed(0);
-//  setRightServoSpeed(0);
+  //  setLeftServoSpeed(SPEED);
+  //  setRightServoSpeed(SPEED);
+  //  setLeftServoSpeed(0);
+  //  setRightServoSpeed(0);
 
-  leftWheelForward();      
+  leftWheelForward();
   rightWheelForward();
 }
 
 void turnAround() {                   // Makes robot turnaround
-//  setLeftServoSpeed(0);
-//  setRightServoSpeed(180);
-  digitalWrite(in_1, HIGH);           
+  //  setLeftServoSpeed(0);
+  //  setRightServoSpeed(180);
+  digitalWrite(in_1, HIGH);
   digitalWrite(in_2, LOW);
-  analogWrite(pwmLeft, 255);          
+  analogWrite(pwmLeft, 255);
   delay(DELAY_TIME);
-  
-  digitalWrite(in_3, HIGH);           
+
+  digitalWrite(in_3, HIGH);
   digitalWrite(in_4, LOW);
   analogWrite(pwmRight, 255);
   delay(DELAY_TIME);
 }
 
 void stopRobot() {                     // Makes robot stop
-//  setLeftServoSpeed(90);
-//  setRightServoSpeed(90);
+  //  setLeftServoSpeed(90);
+  //  setRightServoSpeed(90);
 
   digitalWrite(in_1, HIGH);
   digitalWrite(in_2, HIGH);
@@ -202,7 +209,7 @@ void stopRobot() {                     // Makes robot stop
 void leftWheelForward() {
   digitalWrite(in_1, LOW);            // This should go backwards
   digitalWrite(in_2, HIGH);
-  analogWrite(pwmLeft, 255);          
+  analogWrite(pwmLeft, 255);
   delay(DELAY_TIME);
 }
 
@@ -214,7 +221,7 @@ void leftWheelBackwards() {
 }
 
 void rightWheelForward() {
-  digitalWrite(in_3, HIGH);           
+  digitalWrite(in_3, HIGH);
   digitalWrite(in_4, LOW);
   analogWrite(pwmRight, 255);
   delay(DELAY_TIME);
