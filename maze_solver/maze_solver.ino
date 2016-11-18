@@ -30,7 +30,7 @@ const int pwmRight = 1;                // initializing pin 3 as pwm
 const int in_3 = 2;                    // Inrializing logic pins
 const int in_4 = 3;
 
-NewPing sonar[SONAR_NUM] {          // Object array for sensors
+static NewPing sonar[SONAR_NUM] = {          // Object array for sensors
   //   NewPing(trigger_pin, echo_pin, max_distance)
   //   trig pins (13, 7
   //   echo pins (
@@ -137,15 +137,15 @@ boolean deadEnd() {                   // Returns if there is a deadend
 }
 
 boolean wallOnLeft() {                // Returns if there is a wall on the left
-  return false;
+  return cm[0] <= MAX_DISTANCE;
 }
 
 boolean wallOnRight() {               // Returns if there is a wall on the right
-  return false;
+  return cm[2] <= MAX_DISTANCE;
 }
 
 boolean wallAhead() {                 // Returns if there is a wall ahead
-  return false;
+  return cm[1] <= MAX_DISTANCE;
 }
 
 void turnLeft() {                     // Makes robot turn left
